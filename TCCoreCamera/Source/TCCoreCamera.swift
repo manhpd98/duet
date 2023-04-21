@@ -93,36 +93,38 @@ class TCCoreCamera: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate,
     }
     
     open func startRecording() {
-        switch self.camereType {
-            case .photo:
-                let settings = AVCapturePhotoSettings()
-                self.photoOutput.capturePhoto(with: settings, delegate: self)
-            case .video:
-                self.configureWriters()
-                self.updateFileStorage(with: self.camereType)
-                guard let assetWriter = self.assetWriter else {
-                    assertionFailure("AssetWriter was not initialized")
-                    return
-                }
-                if !assetWriter.startWriting() {
-                    assertionFailure("AssetWriter error: \(assetWriter.error.debugDescription)")
-                }
-                self.isRecording = true
-                self.videoOutput.setSampleBufferDelegate(self, queue: self.recordingQueue)
-                self.audioOutput.setSampleBufferDelegate(self, queue: self.recordingQueue)
-        }
+        self.isRecording = true
+//        switch self.camereType {
+//            case .photo:
+//                let settings = AVCapturePhotoSettings()
+//                self.photoOutput.capturePhoto(with: settings, delegate: self)
+//            case .video:
+//                self.configureWriters()
+//                self.updateFileStorage(with: self.camereType)
+//                guard let assetWriter = self.assetWriter else {
+//                    assertionFailure("AssetWriter was not initialized")
+//                    return
+//                }
+//                if !assetWriter.startWriting() {
+//                    assertionFailure("AssetWriter error: \(assetWriter.error.debugDescription)")
+//                }
+//                self.isRecording = true
+//                self.videoOutput.setSampleBufferDelegate(self, queue: self.recordingQueue)
+//                self.audioOutput.setSampleBufferDelegate(self, queue: self.recordingQueue)
+//        }
     }
     
     open func stopRecording() {
-        self.videoOutput.setSampleBufferDelegate(nil, queue: nil)
-        self.audioOutput.setSampleBufferDelegate(nil, queue: nil)
-        self.assetWriter?.finishWriting {
-            if let fileURL = self.recordingURL {
-                self.videoCompletion?(fileURL)
-            }
-            self.isRecording = false
-            self.isRecordingSessionStarted = false
-        }
+        self.isRecording = false
+//        self.videoOutput.setSampleBufferDelegate(nil, queue: nil)
+//        self.audioOutput.setSampleBufferDelegate(nil, queue: nil)
+//        self.assetWriter?.finishWriting {
+//            if let fileURL = self.recordingURL {
+//                self.videoCompletion?(fileURL)
+//            }
+//            self.isRecording = false
+//            self.isRecordingSessionStarted = false
+//        }
     }
     
     open func flip() {

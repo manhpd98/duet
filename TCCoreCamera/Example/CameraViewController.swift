@@ -22,24 +22,36 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView: UIView!
 
     //for screen recording
-//    let recorder = RPScreenRecorder.shared()
+    let recorder = RPScreenRecorder.shared()
 
     @IBAction private func recordingButton(_ sender: UIButton) {
         guard let cameraManager = self.cameraManager else { return }
         if cameraManager.isRecording {
             cameraManager.stopRecording()
             self.setupStartButton()
-            player?.pause()
-            writer?.finishWriting {
-                print("recoding success")
+            //            writer?.finishWriting {
+            //                print("recoding success")
+            //            }
+            recorder.isMicrophoneEnabled = false
+            recorder.stopRecording { preview, error in
+                if let unwrappedPreview = preview {
+                    unwrappedPreview.previewControllerDelegate = self
+                    self.present(unwrappedPreview, animated: true, completion: nil)
+                }
             }
         } else {
             cameraManager.startRecording()
             self.setupStopButton()
             player?.play()
-
-            DispatchQueue(label: "ManhDZ").async {
-                self.recordUIView()
+            //            DispatchQueue(label: "ManhDZ").async {
+            //                self.recordUIView()
+            //            }
+            recorder.isMicrophoneEnabled = true
+            recorder.startRecording { error in
+                if let unwrappedError = error {
+                    print(unwrappedError.localizedDescription)
+                }
+                // Làm điều gì bạn muốn sau khi bạn đã đồng ý để record
             }
         }
     }
@@ -76,9 +88,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         input.expectsMediaDataInRealTime = true
         writer?.add(input)
 
-//        // Create a CADisplayLink instance
-//        let displayLink = CADisplayLink(target: self, selector: #selector(self.captureFrame(_:)))
-//        displayLink.add(to: .current, forMode: .default)
+        //        // Create a CADisplayLink instance
+        //        let displayLink = CADisplayLink(target: self, selector: #selector(self.captureFrame(_:)))
+        //        displayLink.add(to: .current, forMode: .default)
 
         // Start the AVCaptureSession
         session.startRunning()
@@ -122,7 +134,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction private func flipButtonPressed(_ button: UIButton) {
-//        self.cameraManager?.flip()
+        //        self.cameraManager?.flip()
     }
     
     private var cameraManager: TCCoreCamera?
@@ -211,6 +223,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 print(error.debugDescription)
             }
         }
+    }
+}
+
+extension CameraViewController: RPPreviewViewControllerDelegate {
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        dismiss(animated: true)
     }
 }
 
