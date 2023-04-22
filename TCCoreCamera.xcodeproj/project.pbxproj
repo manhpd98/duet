@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		04EE121429F27067001B722C /* manhdz.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 04EE121329F27067001B722C /* manhdz.mp4 */; };
+		04F44B3C29F3DDAA00CC80E1 /* KVVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F44B3B29F3DDAA00CC80E1 /* KVVideoManager.swift */; };
+		04F44B3E29F3DDCB00CC80E1 /* KVExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F44B3D29F3DDCA00CC80E1 /* KVExtensions.swift */; };
 		6314F7C0205039A0007BBF32 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B62050399F007BBF32 /* CameraViewController.swift */; };
 		6314F7C1205039A0007BBF32 /* TCCoreCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B82050399F007BBF32 /* TCCoreCamera.swift */; };
 		6314F7C3205039A0007BBF32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6314F7BA2050399F007BBF32 /* LaunchScreen.storyboard */; };
@@ -17,6 +19,8 @@
 
 /* Begin PBXFileReference section */
 		04EE121329F27067001B722C /* manhdz.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = manhdz.mp4; sourceTree = "<group>"; };
+		04F44B3B29F3DDAA00CC80E1 /* KVVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVVideoManager.swift; sourceTree = "<group>"; };
+		04F44B3D29F3DDCA00CC80E1 /* KVExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVExtensions.swift; sourceTree = "<group>"; };
 		2FCA4DA21F025236004754A3 /* TCCoreCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCCoreCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6314F7B62050399F007BBF32 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6314F7B82050399F007BBF32 /* TCCoreCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCCoreCamera.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				6314F7B82050399F007BBF32 /* TCCoreCamera.swift */,
+				04F44B3B29F3DDAA00CC80E1 /* KVVideoManager.swift */,
+				04F44B3D29F3DDCA00CC80E1 /* KVExtensions.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -161,6 +167,8 @@
 			files = (
 				6314F7C5205039A0007BBF32 /* AppDelegate.swift in Sources */,
 				6314F7C1205039A0007BBF32 /* TCCoreCamera.swift in Sources */,
+				04F44B3E29F3DDCB00CC80E1 /* KVExtensions.swift in Sources */,
+				04F44B3C29F3DDAA00CC80E1 /* KVVideoManager.swift in Sources */,
 				6314F7C0205039A0007BBF32 /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

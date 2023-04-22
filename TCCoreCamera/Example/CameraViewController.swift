@@ -22,9 +22,25 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraView: UIView!
     
     var isRecording = false
-
+    var fileUrls = [URL]()
     //for screen recording
     let recorder = RPScreenRecorder.shared()
+
+    func tempURL() -> URL? {
+        let directory = NSTemporaryDirectory() as NSString
+
+        if #available(iOS 13.0, *), directory != "" {
+            if #available(iOS 15, *) {
+                let path = directory.appendingPathComponent("\(Date.now).mp4")
+                return URL(fileURLWithPath: path)
+            } else {
+                return nil
+            }
+
+        }
+
+        return nil
+    }
 
     @IBAction private func recordingButton(_ sender: UIButton) {
         guard let cameraManager = self.cameraManager else { return }
@@ -33,72 +49,50 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             self.setupStartButton()
             player?.pause()
             recorder.isMicrophoneEnabled = false
-            recorder.
-            recorder.stopRecording { preview, error in
-                if let unwrappedPreview = preview {
-                    unwrappedPreview.previewControllerDelegate = self
-                    self.present(unwrappedPreview, animated: true, completion: nil)
+            let outputURL = tempURL()
+            if #available(iOS 14.0, *), let outputURL = outputURL {
+                recorder.stopRecording(withOutput: outputURL) { (error) in
+                    guard error == nil else {
+                        print("Failed to save ")
+                        return
+                    }
+                    self.fileUrls.append(outputURL)
+                    // Test thử
+                    guard self.fileUrls.count > 2 else { return }
+                    let assets = self.fileUrls.compactMap { url in
+                        if (try? url.checkResourceIsReachable()) == true {
+                            return AVAsset(url: url)
+                        }
+                        return nil
+                    }
+                    KVVideoManager.shared.merge(arrayVideos: assets) { fileURL, error in
+                        print("Merge video error: \(error)")
+                        if let fileURL = fileURL {
+                            let avPlayer = AVPlayerViewController()
+                            avPlayer.player = AVPlayer(url: fileURL)
+                            self.present(avPlayer, animated: true) {
+                                avPlayer.player?.play()
+                            }
+                        }
+                    }
                 }
+            } else {
+                // Fallback on earlier versions
             }
         } else {
             cameraManager.startRecording()
             self.setupStopButton()
             player?.play()
-            //            DispatchQueue(label: "ManhDZ").async {
-            //                self.recordUIView()
-            //            }
             recorder.isMicrophoneEnabled = true
             recorder.startRecording { error in
                 if let unwrappedError = error {
                     print(unwrappedError.localizedDescription)
                 }
-                // Làm điều gì bạn muốn sau khi bạn đã đồng ý để record
             }
         }
     }
 
     var writer: AVAssetWriter?
-
-//    func recordUIView() {
-//        //_______________
-//        // Create an instance of AVCaptureSession
-//        let session = AVCaptureSession()
-//        session.sessionPreset = .high
-//
-//        // Add a AVCaptureVideoDataOutput instance to the session
-//        let output = AVCaptureVideoDataOutput()
-//        let queue = DispatchQueue(label: "videoQueue")
-//        output.setSampleBufferDelegate(self, queue: queue)
-//        output.videoSettings = [
-//            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-//            kCVPixelBufferWidthKey as String: 394, //"kCVPixelBufferWidthKey as String: UIScreen.main.bounds.size.width",
-//            kCVPixelBufferHeightKey as String: UIScreen.main.bounds.size.height
-//        ]
-//        session.addOutput(output)
-//
-//        // Create an instance of AVAssetWriter
-//        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "video.mp4")
-//        writer = try! AVAssetWriter(outputURL: fileURL, fileType: .mp4)
-//
-//        // Create an instance of AVAssetWriterInput
-//        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
-//            AVVideoCodecKey: AVVideoCodecH264,
-//            AVVideoWidthKey: UIScreen.main.bounds.size.width,
-//            AVVideoHeightKey: UIScreen.main.bounds.size.height
-//        ])
-//        input.expectsMediaDataInRealTime = true
-//        writer?.add(input)
-//
-//        //        // Create a CADisplayLink instance
-//        //        let displayLink = CADisplayLink(target: self, selector: #selector(self.captureFrame(_:)))
-//        //        displayLink.add(to: .current, forMode: .default)
-//
-//        // Start the AVCaptureSession
-//        session.startRunning()
-//        writer?.startWriting()
-//        //_______________
-//    }
-
     var player: AVPlayer?
 
     private func playVideo() {
@@ -125,23 +119,23 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         self.videoView.layer.addSublayer(playerLayer)
         
         let audioSession = AVAudioSession.sharedInstance()
-            
-            //Executed right before playing avqueueplayer media
-            do {
-                try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)
-                try audioSession.setActive(true)
-            } catch {
-                fatalError("Error Setting Up Audio Session")
-            }
+
+        //Executed right before playing avqueueplayer media
+        do {
+            try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)
+            try audioSession.setActive(true)
+        } catch {
+            fatalError("Error Setting Up Audio Session")
+        }
 
 
-            //Executed right after avqueueplayer finishes media
-//            do {
-//                try audioSession.setCategory(.recording, options: [.allowBluetooth])
-//                try audioSession.setActive(true)
-//            } catch {
-//                fatalError("Error Setting Up Audio Session")
-//            }
+        //Executed right after avqueueplayer finishes media
+        //            do {
+        //                try audioSession.setCategory(.recording, options: [.allowBluetooth])
+        //                try audioSession.setActive(true)
+        //            } catch {
+        //                fatalError("Error Setting Up Audio Session")
+        //            }
 
         //5. Play Video
         //        player.play()
@@ -269,4 +263,11 @@ extension AVAsset {
         return CGSize(width: 0, height: 0)
     }
 
+}
+extension URL {
+    static var documents: URL {
+        return FileManager
+            .default
+            .urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
 }
