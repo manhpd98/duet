@@ -28,17 +28,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     func tempURL() -> URL? {
         let directory = NSTemporaryDirectory() as NSString
-
         if #available(iOS 13.0, *), directory != "" {
-            if #available(iOS 15, *) {
-                let path = directory.appendingPathComponent("\(Date.now).mp4")
-                return URL(fileURLWithPath: path)
-            } else {
-                return nil
-            }
-
+            let path = directory.appendingPathComponent("\(NSDate.now).mp4")
+            return URL(fileURLWithPath: path)
         }
-
         return nil
     }
 
@@ -48,33 +41,19 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             cameraManager.stopRecording()
             self.setupStartButton()
             player?.pause()
-            recorder.isMicrophoneEnabled = false
             let outputURL = tempURL()
-            if #available(iOS 14.0, *), let outputURL = outputURL {
+            guard let outputURL = outputURL else {
+                return
+            }
+            if #available(iOS 14.0, *) {
+                recorder.isMicrophoneEnabled = false
                 recorder.stopRecording(withOutput: outputURL) { (error) in
                     guard error == nil else {
                         print("Failed to save ")
                         return
                     }
+                    print("save")
                     self.fileUrls.append(outputURL)
-                    // Test thử
-                    guard self.fileUrls.count > 2 else { return }
-                    let assets = self.fileUrls.compactMap { url in
-                        if (try? url.checkResourceIsReachable()) == true {
-                            return AVAsset(url: url)
-                        }
-                        return nil
-                    }
-                    KVVideoManager.shared.merge(arrayVideos: assets) { fileURL, error in
-                        print("Merge video error: \(error)")
-                        if let fileURL = fileURL {
-                            let avPlayer = AVPlayerViewController()
-                            avPlayer.player = AVPlayer(url: fileURL)
-                            self.present(avPlayer, animated: true) {
-                                avPlayer.player?.play()
-                            }
-                        }
-                    }
                 }
             } else {
                 // Fallback on earlier versions
@@ -82,12 +61,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         } else {
             cameraManager.startRecording()
             self.setupStopButton()
-            player?.play()
             recorder.isMicrophoneEnabled = true
             recorder.startRecording { error in
                 if let unwrappedError = error {
                     print(unwrappedError.localizedDescription)
                 }
+                self.player?.play()
             }
         }
     }
@@ -127,28 +106,25 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         } catch {
             fatalError("Error Setting Up Audio Session")
         }
-
-
-        //Executed right after avqueueplayer finishes media
-        //            do {
-        //                try audioSession.setCategory(.recording, options: [.allowBluetooth])
-        //                try audioSession.setActive(true)
-        //            } catch {
-        //                fatalError("Error Setting Up Audio Session")
-        //            }
-
-        //5. Play Video
-        //        player.play()
-        //            let player = AVPlayer(url: URL(fileURLWithPath: path))
-        //            let playerController = AVPlayerViewController()
-        //            playerController.player = player
-        //            present(playerController, animated: true) {
-        //                player.play()
-        //            }
     }
 
     @IBAction private func flipButtonPressed(_ button: UIButton) {
-        //        self.cameraManager?.flip()
+        let assets = self.fileUrls.compactMap { url in
+            if (try? url.checkResourceIsReachable()) == true {
+                return AVAsset(url: url)
+            }
+            return nil
+        }
+        KVVideoManager.shared.merge(arrayVideos: assets) { fileURL, error in
+            print("Merge video error: \(error)")
+            if let fileURL = fileURL {
+                let avPlayer = AVPlayerViewController()
+                avPlayer.player = AVPlayer(url: fileURL)
+                self.present(avPlayer, animated: true) {
+                    avPlayer.player?.play()
+                }
+            }
+        }
     }
     
     private var cameraManager: TCCoreCamera?

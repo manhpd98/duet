@@ -10,6 +10,7 @@
 		04EE121429F27067001B722C /* manhdz.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 04EE121329F27067001B722C /* manhdz.mp4 */; };
 		04F44B3C29F3DDAA00CC80E1 /* KVVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F44B3B29F3DDAA00CC80E1 /* KVVideoManager.swift */; };
 		04F44B3E29F3DDCB00CC80E1 /* KVExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F44B3D29F3DDCA00CC80E1 /* KVExtensions.swift */; };
+		04F44B4029F3E71000CC80E1 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04F44B3F29F3E71000CC80E1 /* silence.mp3 */; };
 		6314F7C0205039A0007BBF32 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B62050399F007BBF32 /* CameraViewController.swift */; };
 		6314F7C1205039A0007BBF32 /* TCCoreCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B82050399F007BBF32 /* TCCoreCamera.swift */; };
 		6314F7C3205039A0007BBF32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6314F7BA2050399F007BBF32 /* LaunchScreen.storyboard */; };
@@ -21,6 +22,7 @@
 		04EE121329F27067001B722C /* manhdz.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = manhdz.mp4; sourceTree = "<group>"; };
 		04F44B3B29F3DDAA00CC80E1 /* KVVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVVideoManager.swift; sourceTree = "<group>"; };
 		04F44B3D29F3DDCA00CC80E1 /* KVExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVExtensions.swift; sourceTree = "<group>"; };
+		04F44B3F29F3E71000CC80E1 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		2FCA4DA21F025236004754A3 /* TCCoreCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCCoreCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6314F7B62050399F007BBF32 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		6314F7B82050399F007BBF32 /* TCCoreCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCCoreCamera.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		6314F7B42050399F007BBF32 /* TCCoreCamera */ = {
 			isa = PBXGroup;
 			children = (
+				04F44B3F29F3E71000CC80E1 /* silence.mp3 */,
 				04EE121329F27067001B722C /* manhdz.mp4 */,
 				6314F7B52050399F007BBF32 /* Example */,
 				6314F7B72050399F007BBF32 /* Source */,
@@ -152,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F44B4029F3E71000CC80E1 /* silence.mp3 in Resources */,
 				6314F7C4205039A0007BBF32 /* Main.storyboard in Resources */,
 				04EE121429F27067001B722C /* manhdz.mp4 in Resources */,
 				6314F7C3205039A0007BBF32 /* LaunchScreen.storyboard in Resources */,
