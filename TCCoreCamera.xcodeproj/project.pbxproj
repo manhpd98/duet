@@ -10,7 +10,6 @@
 		04EE121429F27067001B722C /* manhdz.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 04EE121329F27067001B722C /* manhdz.mp4 */; };
 		6314F7C0205039A0007BBF32 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B62050399F007BBF32 /* CameraViewController.swift */; };
 		6314F7C1205039A0007BBF32 /* TCCoreCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7B82050399F007BBF32 /* TCCoreCamera.swift */; };
-		6314F7C2205039A0007BBF32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6314F7B92050399F007BBF32 /* Assets.xcassets */; };
 		6314F7C3205039A0007BBF32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6314F7BA2050399F007BBF32 /* LaunchScreen.storyboard */; };
 		6314F7C4205039A0007BBF32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6314F7BC2050399F007BBF32 /* Main.storyboard */; };
 		6314F7C5205039A0007BBF32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314F7BE2050399F007BBF32 /* AppDelegate.swift */; };
@@ -118,7 +117,7 @@
 				TargetAttributes = {
 					2FCA4DA11F025236004754A3 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = M88R9KY438;
+						DevelopmentTeam = H697JQ253G;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -149,7 +148,6 @@
 			files = (
 				6314F7C4205039A0007BBF32 /* Main.storyboard in Resources */,
 				04EE121429F27067001B722C /* manhdz.mp4 in Resources */,
-				6314F7C2205039A0007BBF32 /* Assets.xcassets in Resources */,
 				6314F7C3205039A0007BBF32 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,15 +304,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M88R9KY438;
+				DEVELOPMENT_TEAM = H697JQ253G;
 				INFOPLIST_FILE = "$(SRCROOT)/TCCoreCamera/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedRuDy.Recorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -322,15 +323,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M88R9KY438;
+				DEVELOPMENT_TEAM = H697JQ253G;
 				INFOPLIST_FILE = "$(SRCROOT)/TCCoreCamera/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RedRuDy.Recorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

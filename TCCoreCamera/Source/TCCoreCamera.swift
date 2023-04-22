@@ -85,11 +85,11 @@ class TCCoreCamera: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate,
         self.videoWriterInput = AVAssetWriterInput(mediaType: .video,
             outputSettings: self.videoSettings)
         super.init()
-        self.updateFileStorage(with: self.camereType)
+//        self.updateFileStorage(with: self.camereType)
         self.initialize()
-        self.configureWriters()
+//        self.configureWriters()
         self.configurePreview()
-        self.configureSession()
+//        self.configureSession()
     }
     
     open func startRecording() {
@@ -171,9 +171,9 @@ class TCCoreCamera: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate,
         self.session.sessionPreset = .high
         self.videoWriterInput.expectsMediaDataInRealTime = true
         self.audioWriterInput.expectsMediaDataInRealTime = true
-        self.photoOutput.setPreparedPhotoSettingsArray([
-            AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
-        ], completionHandler: nil)
+//        self.photoOutput.setPreparedPhotoSettingsArray([
+//            AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
+//        ], completionHandler: nil)
         self.cameraPosition = .front
         self.addVideoInput(position: .front)
     }

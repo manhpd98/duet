@@ -20,6 +20,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var cameraView: UIView!
+    
+    var isRecording = false
 
     //for screen recording
     let recorder = RPScreenRecorder.shared()
@@ -29,10 +31,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraManager.isRecording {
             cameraManager.stopRecording()
             self.setupStartButton()
-            //            writer?.finishWriting {
-            //                print("recoding success")
-            //            }
+            player?.pause()
             recorder.isMicrophoneEnabled = false
+            recorder.
             recorder.stopRecording { preview, error in
                 if let unwrappedPreview = preview {
                     unwrappedPreview.previewControllerDelegate = self
@@ -58,45 +59,45 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     var writer: AVAssetWriter?
 
-    func recordUIView() {
-        //_______________
-        // Create an instance of AVCaptureSession
-        let session = AVCaptureSession()
-        session.sessionPreset = .high
-
-        // Add a AVCaptureVideoDataOutput instance to the session
-        let output = AVCaptureVideoDataOutput()
-        let queue = DispatchQueue(label: "videoQueue")
-        output.setSampleBufferDelegate(self, queue: queue)
-        output.videoSettings = [
-            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-            kCVPixelBufferWidthKey as String: 394, //"kCVPixelBufferWidthKey as String: UIScreen.main.bounds.size.width",
-            kCVPixelBufferHeightKey as String: UIScreen.main.bounds.size.height
-        ]
-        session.addOutput(output)
-
-        // Create an instance of AVAssetWriter
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "video.mp4")
-        writer = try! AVAssetWriter(outputURL: fileURL, fileType: .mp4)
-
-        // Create an instance of AVAssetWriterInput
-        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
-            AVVideoCodecKey: AVVideoCodecH264,
-            AVVideoWidthKey: UIScreen.main.bounds.size.width,
-            AVVideoHeightKey: UIScreen.main.bounds.size.height
-        ])
-        input.expectsMediaDataInRealTime = true
-        writer?.add(input)
-
-        //        // Create a CADisplayLink instance
-        //        let displayLink = CADisplayLink(target: self, selector: #selector(self.captureFrame(_:)))
-        //        displayLink.add(to: .current, forMode: .default)
-
-        // Start the AVCaptureSession
-        session.startRunning()
-        writer?.startWriting()
-        //_______________
-    }
+//    func recordUIView() {
+//        //_______________
+//        // Create an instance of AVCaptureSession
+//        let session = AVCaptureSession()
+//        session.sessionPreset = .high
+//
+//        // Add a AVCaptureVideoDataOutput instance to the session
+//        let output = AVCaptureVideoDataOutput()
+//        let queue = DispatchQueue(label: "videoQueue")
+//        output.setSampleBufferDelegate(self, queue: queue)
+//        output.videoSettings = [
+//            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+//            kCVPixelBufferWidthKey as String: 394, //"kCVPixelBufferWidthKey as String: UIScreen.main.bounds.size.width",
+//            kCVPixelBufferHeightKey as String: UIScreen.main.bounds.size.height
+//        ]
+//        session.addOutput(output)
+//
+//        // Create an instance of AVAssetWriter
+//        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory() + "video.mp4")
+//        writer = try! AVAssetWriter(outputURL: fileURL, fileType: .mp4)
+//
+//        // Create an instance of AVAssetWriterInput
+//        let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
+//            AVVideoCodecKey: AVVideoCodecH264,
+//            AVVideoWidthKey: UIScreen.main.bounds.size.width,
+//            AVVideoHeightKey: UIScreen.main.bounds.size.height
+//        ])
+//        input.expectsMediaDataInRealTime = true
+//        writer?.add(input)
+//
+//        //        // Create a CADisplayLink instance
+//        //        let displayLink = CADisplayLink(target: self, selector: #selector(self.captureFrame(_:)))
+//        //        displayLink.add(to: .current, forMode: .default)
+//
+//        // Start the AVCaptureSession
+//        session.startRunning()
+//        writer?.startWriting()
+//        //_______________
+//    }
 
     var player: AVPlayer?
 
@@ -122,6 +123,25 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         //4. Add playerLayer to view's layer
         self.videoView.layer.addSublayer(playerLayer)
+        
+        let audioSession = AVAudioSession.sharedInstance()
+            
+            //Executed right before playing avqueueplayer media
+            do {
+                try audioSession.setCategory(.playAndRecord, options: .defaultToSpeaker)
+                try audioSession.setActive(true)
+            } catch {
+                fatalError("Error Setting Up Audio Session")
+            }
+
+
+            //Executed right after avqueueplayer finishes media
+//            do {
+//                try audioSession.setCategory(.recording, options: [.allowBluetooth])
+//                try audioSession.setActive(true)
+//            } catch {
+//                fatalError("Error Setting Up Audio Session")
+//            }
 
         //5. Play Video
         //        player.play()
